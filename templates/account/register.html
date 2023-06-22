@@ -1,0 +1,74 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block content %}
+    <section class="section-content padding-y">
+    <!-- ============================ COMPONENT REGISTER   ================================= -->
+    <div class="card mx-auto" style="max-width: 520px; margin-top: 40px">
+        <article class="card-body">
+            {% include 'partials/_messages.html' %}
+            <header class="mb-4">
+                <h3 class="card-title text-center text-decoration-underline">Sign up</h3>
+            </header>
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+
+                <div class="row mb-3">
+                    <div class="col ">
+                        <label>First name</label>
+                        {{form.first_name}}
+                    </div>
+                    <!-- form-group end.// -->
+                    <div class="col form-group">
+                        <label>Last name</label>
+                        <!--<input type="text" class="form-control" placeholder="" />-->
+                        {{form.last_name}}
+                    </div>
+                    <!-- form-group end.// -->
+                </div>
+             
+
+                <!-- form-group end.// -->
+                <div class=" row mb-3">
+                    <div class="col-md-6">
+                        <label>Email</label>
+                        {{form.email}}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Phone Number</label>
+                        {{form.phone_number}}
+                    </div>
+                </div>
+                <!-- form-row.// -->
+                <div class="row mb-3">
+                    <div class=" col-md-6">
+                        <label>Create password</label>
+                        {{form.password}}
+                    </div>
+                    <!-- form-group end.// -->
+                    <div class=" col-md-6">
+                        <label>Repeat password</label>
+                        {{form.confirm_password}}
+                    </div>
+                    <!-- form-group end.// -->
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto mb-3">
+                    <button type="submit" class="btn btn-primary ">
+                        Register
+                    </button>
+                </div>
+                <!-- form-group// -->
+                {{form.email.errors}}
+                {{form.non_field_errors}}
+            </form>
+        </article>
+        <!-- card-body.// -->
+    </div>
+    <!-- card .// -->
+    <p class="text-center mt-4">Have an account? <a href="{% url 'login' %}">Log In</a></p>
+    <br /><br />
+    <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+    </section>
+
+{% endblock content %}

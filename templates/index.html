@@ -2,14 +2,17 @@
 {% load static %}
 {% block content %}
 <!-- ========================= SECTION MAIN ========================= -->
-    <section class="section-intro padding-y-sm">
-      <div class="container">
-        <div class="intro-banner-wrap">
-          <img src="{% static 'images/banners/banner1.jpg' %}" class="img-fluid rounded" />
-        </div>
+  <div class="text-center mt-2">
+  {% include 'partials/_messages.html' %}
+  </div>
+  <section class="section-intro padding-y-sm">
+    <div class="container">
+      <div class="intro-banner-wrap">
+        <img src="{% static 'images/banners/banner1.jpg' %}" class="img-fluid rounded" />
       </div>
-      <!-- container //  -->
-    </section>
+    </div>
+    <!-- container //  -->
+  </section>
 <!-- ========================= SECTION MAIN END// ========================= -->
 <section class="section-name padding-y-sm">
   <div class="container">

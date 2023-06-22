@@ -6,11 +6,12 @@ from .models import Account
 
 @admin.register(Account)
 class AdminAccount(BaseUserAdmin):
-    list_display = ["email","first_name", "last_name", "username","is_active",'date_joined','last_login']
+    list_display = ["email","first_name", "last_name",'phone_number',"username","is_active",'date_joined','last_login']
     list_filter = ["is_admin"]
     fieldsets = [
         (None, {"fields": ["email", "password"]}),
-        ("Personal info", {"fields": ["first_name","last_name"]}),
+        ("Personal info", {"fields": ["first_name","last_name",'phone_number']}),
+        ("Time",{"fields":['date_joined','last_login']}),
         ("Permissions", {"fields": ["is_admin",'is_staff','is_super_admin','is_active']}),
     ]
     readonly_fields =["date_joined","last_login"]
