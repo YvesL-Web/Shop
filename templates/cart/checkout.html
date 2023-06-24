@@ -1,0 +1,163 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+
+<section class="section-content padding-y bg ">
+   <div class="container">
+    <!-- ============================ COMPONENT 1 ================================= -->
+      <div class="row">
+         <aside class="col-lg-6">
+            <div class="card">
+               <div class="card-header py-3">
+                  <h5 class="mb-0 text-center text-uppercase">Biling details</h5>
+               </div>
+               <div class="card-body">
+                  <form action="{% url 'place_order' %}" method="POST">
+                     {% csrf_token %}
+                     <!-- 2 column grid layout with text inputs for the first and last names -->
+                     <div class="row mb-4">
+                        <div class="col">
+                           <div class="form-outline">
+                              <label class="form-label" for="form7Example1">First name</label>
+                              <input type="text" name="first_name"  id="form7Example1" class="form-control"  required/>
+                           </div>
+                        </div>
+                        <div class="col">
+                           <div class="form-outline">
+                              <label class="form-label" for="form7Example2">Last name</label>
+                              <input type="text" name="last_name"  id="form7Example2" class="form-control"  required/>
+                           </div>
+                        </div>
+                     </div>
+
+                     <!-- Email input -->
+                     <div class="form-outline mb-4">
+                        <label class="form-label" for="form7Example5">Email</label>
+                        <input type="email" name="email" id="form7Example5" class="form-control"  required/> 
+                     </div>
+
+                     <!-- Number input -->
+                     <div class="form-outline mb-4">
+                        <label class="form-label" for="form7Example6">Phone</label>
+                        <input type="number" name="phone_number" id="form7Example6" class="form-control"  required/>  
+                     </div>
+
+                     <!-- Text input -->
+                     <div class="form-outline mb-4">
+                        <label class="form-label" for="form7Example4">Address</label>
+                        <input type="text" name="address" id="form7Example4" class="form-control"  required/>
+                     </div>
+
+                     <div class="row">
+                        <!-- City input -->
+                        <div class="col">
+                           <div class="form-outline mb-4">
+                              <label class="form-label"  for="form7Example7">City</label>
+                              <input type="text" name="city" class="form-control" id="form7Example7" required></input>
+                           </div>
+                        </div>
+                        <!--state-->
+                        <div class="col">
+                           <div class="form-outline mb-4">
+                              <label class="form-label" for="form7Example7">State</label>
+                              <input type="text" name="state" class="form-control" id="form7Example7" required></input>
+                           </div>
+                        </div>
+                        <!--country-->
+                        <div class="col">
+                           <div class="form-outline mb-4">
+                              <label class="form-label" for="form7Example7">Country</label>
+                              <input type="text" name="country" class="form-control" id="form7Example7" required></input>
+                           </div>
+                        </div>
+                     </div>
+                     
+                     <!-- Message input -->
+                     <div class="form-outline mb-4">
+                        <label class="form-label" for="form7Example7">Order Note</label>
+                        <textarea class="form-control" name="order_note" id="form7Example7" rows="4"></textarea>
+                     </div>
+
+                     <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="submit" class="btn btn-outline-success">
+                        Place Order
+                        </button>
+                     </div> 
+                  </form>
+               </div>
+            </div>
+            <!-- card.// -->
+         </aside>
+         <!-- col.// -->
+         <aside class="col-lg-6">
+            <div class="card">
+               <div class="card-body">
+                  <table class="table table-borderless table-shopping-cart">
+                     <thead class="text-muted">
+                        <tr class="small text-uppercase">
+                           <th scope="col">Product</th>
+                           <th scope="col" width="120">Quantity</th>
+                           <th scope="col" width="120">Price</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for item in cart_items %}
+                           <tr>
+                              <td>
+                                 <figure class="itemside align-items-center">
+                                    <div class="aside">
+                                       <img src="{{item.product.images.url}}" class="img-sm" />
+                                    </div>
+                                    <figcaption class="info">
+                                       <a href="{{item.product.get_url}}" class="title text-decoration-none">{{item.product.name}}</a>
+                                       <p class="text-muted small">
+                                          {% if item.variations.all %}
+
+                                          {% for variation  in item.variations.all %}
+                                                {{variation.variation_cat}} : {{variation.variation_value}} <br>
+                                          {% endfor %}
+                                                
+                                          {% endif %}
+                                       </p>
+                                    </figcaption>
+                                 </figure>
+                              </td>
+                              <td>
+                                 <div>
+                                    <p class="text-muted">{{item.quantity}}</p>
+                                 </div>
+                              </td>
+                              <td>
+                                 <div class="price-wrap">
+                                    <var class="price">${{item.prod_total_price}}</var>
+                                    <small class="text-muted"> ${{item.product.price}} each </small>
+                                 </div>
+                                 <!-- price-wrap .// -->
+                              </td>
+                              
+                           </tr>
+                        {% endfor %}
+                     
+                     </tbody>
+                  </table>
+                  <div class="d-grid gap-2 col-6 mx-auto">
+                     <!--<a href="./place-order.html" class="btn btn-primary btn-block">
+                     Place Order
+                     </a>-->
+                     <a href="{% url 'store' %}" class="btn btn-outline-dark">
+                        Continue Shopping
+                     </a>
+                  </div> 
+               </div>
+               <!-- card-body.// -->
+            </div>
+            <!-- card.// -->
+         </aside>
+         <!-- col.// -->
+      </div>
+      <!-- row.// -->
+      <!-- ============================ COMPONENT 1 END .// ================================= -->
+   </div>
+  <!-- container .//  -->
+</section>
+{% endblock content %}
