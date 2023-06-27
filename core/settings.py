@@ -140,6 +140,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups' 
+
 AUTH_USER_MODEL = "account.Account"
 
 MESSAGE_TAGS = {

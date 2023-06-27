@@ -166,7 +166,8 @@ def cart(request,cart_items=None):
             total += item.product.price * item.quantity
             quantity += item.quantity
         tax =(5 * total)/100
-        total_with_taxes=  total + tax
+        tax = float("{:.2f}".format(tax))
+        total_with_taxes=  float(total) + tax
     except Cart.DoesNotExist:
         pass
     
@@ -196,7 +197,8 @@ def checkout(request, cart_items=None):
             total += item.product.price * item.quantity
             quantity += item.quantity
         tax =(5 * total)/100
-        total_with_taxes=  total + tax
+        tax = float("{:.2f}".format(tax))
+        total_with_taxes=  float(total) + tax
     except Cart.DoesNotExist:
         pass
     
