@@ -9,11 +9,27 @@
       <div class="row no-gutters">
         <aside class="col-md-6">
           <article class="gallery-wrap">
-            <div class="img-big-wrap">
-              <a href="#"><img src="{{single_product.images.url}}" /></a>
+            <div class="img-big-wrap mainImage text-center">
+              <img src="{{single_product.images.url}}" />
             </div>
             <!-- img-big-wrap.// -->
           </article>
+         
+          <div class="d-flex thumb">
+            <div class=" m-1">
+              <a href="{{single_product.images.url}}" target="mainImage">
+                <img src="{{single_product.images.url}}" alt="product image">
+              </a>
+            </div>
+            {% for image in product_gallery %}
+              <div class=" m-1">
+                <a href="{{image.image.url}}" target="mainImage">
+                  <img src="{{image.image.url}}" alt="product image">
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+
           <!-- gallery-wrap .end// -->
         </aside>
         <main class="col-md-6 border-left border brder-1 bg-light"> <!--#f0f5f5   #9BABB8-->
@@ -71,7 +87,6 @@
                   <span class="text">Add to cart</span>
                   <i class="fas fa-shopping-cart"></i>
                 </button>
-                
               {% endif %}
             </article>
           </form>
@@ -190,5 +205,15 @@
   <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
-
+<!-- Jquery code for image -->
+<script type="text/javascript">
+  
+  $(document).ready(function () {
+   $('.thumb a').click(function(e){
+    e.preventDefault();
+    $('.mainImage img').attr('src', $(this).attr("href"));
+   })
+  });
+  
+</script>
 {% endblock content %}

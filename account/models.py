@@ -1,7 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+# from django.core.validators import RegexValidator
+# from django.utils.text import gettext_lazy as _
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
+def get_profile_image_filepath(instance, filename):
+    return 'profile_images/user_{0}/{1}'.format(instance.user.username, filename)
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, first_name, last_name, username, email, password=None):
@@ -20,7 +26,7 @@ class MyAccountManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
         )
-
+        
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -78,4 +84,22 @@ class Account(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
     
+class UserProfile(models.Model):
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100, blank=True, null=True)
+    profile_image = models.ImageField(upload_to=get_profile_image_filepath, null=True, blank=True, default='default.jpg')  
+    city = models.CharField(max_length=50, blank=True, null=True)
+    postal_code = models.CharField(max_length=10, blank=True, null=True)
+    country = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.first_name
     
+    def full_address(self):
+        return f"{self.address}, {self.postal_code} {self.city}, {self.country}"
+    
+# Signal
+@receiver(post_save, sender=Account)
+def create_user_profile(instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)

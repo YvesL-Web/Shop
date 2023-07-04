@@ -7,7 +7,7 @@ from category.models import Category
 from cart.models import CartItem
 from cart.views import _cart_id
 from .forms import ReviewForm
-from .models import Product, ReviewRating
+from .models import Product, ReviewRating, ProductGallery
 from order.models import OrderProduct
 
 # Create your views here.
@@ -39,6 +39,7 @@ def product_detail(request, category_slug, product_slug):
     try:
         single_product = Product.objects.get(category__slug=category_slug ,slug=product_slug)
         in_cart = CartItem.objects.filter(cart__cart_id =_cart_id(request), product=single_product ).exists()
+        print(in_cart)
     except Exception as e:
         raise e
 
@@ -51,12 +52,15 @@ def product_detail(request, category_slug, product_slug):
         order_product = None
     # Get the reviews
     reviews = ReviewRating.objects.filter(product_id = single_product.id, status=True)
+    # Get the gallery image
+    product_gallery = ProductGallery.objects.filter(product_id = single_product.id)
 
     context= {
         'single_product': single_product,
         'in_cart': in_cart,
         'order_product':order_product,
-        'reviews': reviews
+        'reviews': reviews,
+        'product_gallery': product_gallery
     }
 
     return render(request, 'store/product_detail.html', context)

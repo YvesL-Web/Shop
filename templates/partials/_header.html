@@ -107,7 +107,7 @@
         <li class="nav-item me-2">
           {% if request.user.is_authenticated %}
             <div class="widget-header">
-              <small class="title">Welcome <b>{{request.user.first_name|title}}</b></small>
+              <small class="title">Welcome <b>{{request.user.username|title}}</b></small>
               <div>
                 <a href="{% url 'dashboard' %}">Dashboard</a>
                 <span class="dark-transp"> | </span>

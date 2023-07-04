@@ -19,14 +19,22 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 from . import views
 
 urlpatterns = [
     path("", views.home, name="home"),
     path('account/', include("account.urls")),
-    path('admin/', admin.site.urls),
+    path('admin/',include("admin_honeypot.urls", namespace='admin_honeypot')),
+    path('ecorce_admin/', admin.site.urls),
     path('cart/', include("cart.urls")),
     path('store/', include("store.urls")),
     path('order/', include("order.urls")),
    
+   
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

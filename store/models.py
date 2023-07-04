@@ -5,6 +5,9 @@ from category.models import Category
 from account.models import Account
 
 # Create your models here.
+def get_product_image_filepath(instance, filename):
+    return 'gallery_image/{0}/{1}'.format(instance.product.name, filename)
+
 class Product(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -73,3 +76,13 @@ class ReviewRating(models.Model):
 
     def __str__(self):
         return self.subject
+    
+class ProductGallery(models.Model):
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to= get_product_image_filepath)
+
+    class Meta:
+        verbose_name_plural = "product gallery"
+
+    def __str__(self):
+        return self.product.name
